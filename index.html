@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SuperNet — منظومة إدارة مشتركي FTTH</title>
+<meta name="description" content="SuperNet برنامج سطح مكتب لإدارة مشتركي الفايبر FTTH لمكاتب ووكلاء الإنترنت: مشتركين، باقات، كابينات، ديون، مخزون، واتساب وتقارير.">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #05080c;
+    --surface: rgba(255, 255, 255, 0.04);
+    --border: rgba(255, 255, 255, 0.1);
+    --t1: #ffffff;
+    --t2: #c9d7e2;
+    --t3: #94a6b4;
+    --acc: #28e6d2;
+    --acc-h: #6ff6e9;
+    --acc-soft: rgba(40, 230, 210, 0.12);
+    --on-acc: #04211f;
+    --warn: #ffb84d;
+    color-scheme: dark;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #e9eef0;
+      --surface: #f4f7f8;
+      --border: #d0d9dd;
+      --t1: #16202a;
+      --t2: #3f505b;
+      --t3: #627381;
+      --acc: #0b7a86;
+      --acc-h: #095c66;
+      --acc-soft: #d8eef1;
+      --on-acc: #ffffff;
+      --warn: #a55f0c;
+      color-scheme: light;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--t1);
+    font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif;
+    line-height: 1.8;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 0 16px; }
+  .num { direction: ltr; unicode-bidi: isolate; font-family: 'Segoe UI', Tahoma, sans-serif; }
+
+  /* الترويسة */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding: 72px 0 64px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    background:
+      radial-gradient(700px 360px at 80% -10%, var(--acc-soft), transparent 65%),
+      radial-gradient(600px 360px at 10% 110%, var(--acc-soft), transparent 65%);
+  }
+  .fiber {
+    position: absolute;
+    inset-inline: 0;
+    top: 34px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--acc), transparent);
+    background-size: 40% 100%;
+    background-repeat: no-repeat;
+    animation: fiber 4s linear infinite;
+    opacity: 0.7;
+  }
+  @keyframes fiber {
+    from { background-position: -70% 0; }
+    to { background-position: 170% 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .fiber { animation: none; background-size: 100% 100%; } }
+
+  .badge {
+    display: inline-block;
+    padding: 2px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--acc-soft);
+    color: var(--acc-h);
+    font-size: 13px;
+    font-weight: 600;
+  }
+  @media (prefers-color-scheme: light) { .badge { color: var(--acc-h); } }
+  h1 {
+    margin: 18px 0 6px;
+    font-size: clamp(38px, 8vw, 64px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: 0;
+  }
+  h1 span { color: var(--acc); }
+  .lead {
+    max-width: 620px;
+    margin: 0 auto 30px;
+    color: var(--t2);
+    font-size: clamp(16px, 2.6vw, 19px);
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 34px;
+    border-radius: 12px;
+    background: var(--acc);
+    color: var(--on-acc);
+    font-size: 18px;
+    font-weight: 800;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.15s;
+  }
+  .btn:hover { background: var(--acc-h); transform: translateY(-2px); }
+  .btn:focus-visible, .contact a:focus-visible { outline: 3px solid var(--acc-h); outline-offset: 3px; }
+  .btn svg { width: 22px; height: 22px; }
+  .meta { margin-top: 14px; color: var(--t3); font-size: 14px; }
+
+  /* الأقسام */
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  h2 { margin: 0 0 8px; font-size: 26px; font-weight: 800; }
+  .sub { margin: 0 0 28px; color: var(--t3); }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 14px;
+  }
+  .card {
+    padding: 18px 20px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: var(--surface);
+  }
+  .card h3 { margin: 0 0 4px; font-size: 17px; font-weight: 800; color: var(--acc); }
+  .card p { margin: 0; color: var(--t2); font-size: 15px; }
+
+  .steps { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 12px; }
+  .steps li {
+    counter-increment: s;
+    position: relative;
+    padding: 16px 68px 16px 20px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: var(--surface);
+    color: var(--t2);
+  }
+  .steps li::before {
+    content: counter(s);
+    position: absolute;
+    right: 18px;
+    top: 16px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--acc-soft);
+    color: var(--acc);
+    font: 800 17px/34px 'Segoe UI', Tahoma, sans-serif;
+    text-align: center;
+  }
+  .steps b { color: var(--t1); }
+  .note {
+    margin-top: 16px;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-right: 4px solid var(--warn);
+    border-radius: 10px;
+    background: var(--surface);
+    color: var(--t2);
+    font-size: 15px;
+  }
+  .note b { color: var(--warn); }
+
+  /* المطوّر */
+  .dev {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 20px 28px;
+    padding: 26px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+  }
+  .avatar {
+    flex: none;
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    background: var(--acc-soft);
+    color: var(--acc);
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 76px;
+    text-align: center;
+  }
+  .dev-info { flex: 1 1 260px; }
+  .dev-info h3 { margin: 0; font-size: 22px; font-weight: 800; }
+  .dev-info .role { margin: 0 0 6px; color: var(--acc); font-weight: 600; }
+  .dev-info p { margin: 0; color: var(--t2); font-size: 15px; }
+  .contact { display: flex; flex-wrap: wrap; gap: 10px; }
+  .contact a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: border-color 0.15s, color 0.15s;
+  }
+  .contact a:hover { border-color: var(--acc); color: var(--acc); }
+  .contact a.wa { background: var(--acc); border-color: var(--acc); color: var(--on-acc); }
+  .contact a.wa:hover { background: var(--acc-h); color: var(--on-acc); }
+  .contact svg { width: 18px; height: 18px; }
+
+  footer { padding: 26px 0 34px; color: var(--t3); font-size: 14px; text-align: center; }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="fiber"></div>
+  <div class="wrap">
+    <span class="badge">الإصدار <span class="num">2.5</span> · ويندوز</span>
+    <h1>Super<span>Net</span></h1>
+    <p class="lead">منظومة سطح مكتب لإدارة مشتركي الفايبر <span class="num">FTTH</span> — كل شغل المكتب بمكان واحد: المشتركين، الباقات، الكابينات، الديون، المخزون والتقارير.</p>
+
+    <!-- رابط التنزيل: يتغيّر هنا فقط عند رفع نسخة جديدة -->
+    <a class="btn" id="download" href="https://github.com/22mo/supernet/releases/latest/download/SuperNet-Setup-2.5.0.exe">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m0 0l-5-5m5 5l5-5M4 21h16"/></svg>
+      تنزيل البرنامج
+    </a>
+    <div class="meta">حجم الملف <span class="num">81 MB</span> · يعمل على ويندوز <span class="num">10</span> و <span class="num">11</span></div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="wrap">
+      <h2>شنو يسوي البرنامج؟</h2>
+      <p class="sub">مصمم لمكاتب ووكلاء الإنترنت، عربي بالكامل وبالدينار العراقي.</p>
+      <div class="grid">
+        <div class="card"><h3>إدارة المشتركين</h3><p>إضافة وتجديد وتفعيل وإيقاف، مع سجل كامل لكل مشترك وتاريخ انتهاء اشتراكه.</p></div>
+        <div class="card"><h3>الباقات والسرعات</h3><p>باقات السرعة وباقات التفعيل بأسعارها ومددها، وعدد المشتركين على كل باقة.</p></div>
+        <div class="card"><h3>الكابينات</h3><p>كل كابينة بأعمدتها وبورتاتها، وتعرف منو مربوط على أي كابينة.</p></div>
+        <div class="card"><h3>الديون والمصروفات</h3><p>دفتر ديون للمشتركين وغير المشتركين، تسديدات جزئية، ومصروفات المكتب.</p></div>
+        <div class="card"><h3>المخزون والأجهزة</h3><p>بيع الأجهزة والمواد، وسجل لكل إضافة وحذف باسم الموظف اللي سواها.</p></div>
+        <div class="card"><h3>الكارتات</h3><p>تفعيل كارتات الاشتراك للمشتركين من داخل البرنامج.</p></div>
+        <div class="card"><h3>الصيانة والفنيين</h3><p>أوامر عمل للفنيين: تنصيب، صيانة، ضعف خدمة وجلب اشتراك، وترسل للفني واتساب.</p></div>
+        <div class="card"><h3>إشعارات الواتساب</h3><p>رسائل جاهزة للتذكير بانتهاء الاشتراك والديون، لمشترك واحد أو لمجموعة.</p></div>
+        <div class="card"><h3>التقارير</h3><p>تقارير مالية وتقارير الشبكة، ومنو ينتهي اشتراكه اليوم أو خلال أيام.</p></div>
+        <div class="card"><h3>مزامنة مع لوحة <span class="num">SAS</span></h3><p>يسحب بيانات مشتركيك من اللوحة حتى ما تدخلهم واحد واحد.</p></div>
+        <div class="card"><h3>حسابات للموظفين</h3><p>كل مكتب بياناته معزولة عن غيره، وكل موظف يدخل بحسابه.</p></div>
+        <div class="card"><h3>وضع فاتح وأسود</h3><p>واجهة مريحة للعين بالليل والنهار، تبدلها بضغطة وحدة.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <h2>طريقة التنصيب</h2>
+      <p class="sub">ثلاث خطوات وتبدي تشتغل.</p>
+      <ol class="steps">
+        <li><b>نزّل البرنامج</b> من الزر الموجود فوق، وانتظر يكمل التنزيل.</li>
+        <li><b>افتح الملف ونصّبه.</b> اضغط «التالي» لحد ما يكمل، وراح تلگه أيقونة <span class="num">SuperNet</span> على سطح المكتب.</li>
+        <li><b>سجّل دخول</b> باسم المستخدم وكلمة السر مال مكتبك. إذا ما عندك حساب، راسلني وأفتحلك واحد.</li>
+      </ol>
+      <div class="note">
+        <b>ملاحظة:</b> ويندوز ممكن يطلعلك شاشة زرگة مكتوب بيها «<span class="num">Windows protected your PC</span>». هذا طبيعي مع البرامج الجديدة — اضغط <span class="num">More info</span> وبعدها <span class="num">Run anyway</span>. والبرنامج يحتاج إنترنت حتى يشتغل.
+      </div>
+    </div>
+  </section>
+
+  <section id="contact">
+    <div class="wrap">
+      <h2>منو ورا البرنامج؟</h2>
+      <p class="sub">للحصول على حساب، أو لأي سؤال أو مشكلة.</p>
+      <div class="dev">
+        <div class="avatar" aria-hidden="true">ع</div>
+        <div class="dev-info">
+          <h3>علي محمد جهاد</h3>
+          <p class="role">مهندس تقنيات حاسوب</p>
+          <p>مطوّر منظومة <span class="num">SuperNet</span>، وأتابع الدعم والتحديثات بنفسي.</p>
+        </div>
+        <div class="contact">
+          <a class="wa" href="https://wa.me/9647707230380" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20.5l1.7-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg>
+            واتساب
+          </a>
+          <a href="tel:+9647707230380">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg>
+            <span class="num">0770 723 0380</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap"><span class="num">SuperNet © 2026</span> · تطوير علي محمد جهاد</div>
+</footer>
+
+</body>
+</html>
