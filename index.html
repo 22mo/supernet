@@ -6,6 +6,7 @@
 <title>SuperNet — منظومة إدارة مشتركي FTTH</title>
 <meta name="description" content="SuperNet برنامج سطح مكتب لإدارة مشتركي الفايبر FTTH لمكاتب ووكلاء الإنترنت: مشتركين، باقات، كابينات، ديون، مخزون، واتساب وتقارير.">
 <meta name="robots" content="noindex">
+<link rel="icon" type="image/png" href="icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;800&display=swap" rel="stylesheet">
@@ -93,6 +94,7 @@
     font-weight: 600;
   }
   @media (prefers-color-scheme: light) { .badge { color: var(--acc-h); } }
+  .logo { display: block; margin: 0 auto 16px; }
   h1 {
     margin: 18px 0 6px;
     font-size: clamp(38px, 8vw, 64px);
@@ -232,7 +234,8 @@
 <header class="hero">
   <div class="fiber"></div>
   <div class="wrap">
-    <span class="badge">الإصدار <span class="num">2.5.1</span> · ويندوز</span>
+    <img class="logo" src="icon.png" alt="" width="96" height="96">
+    <div><span class="badge">الإصدار <span class="num">2.5.2</span> · ويندوز</span></div>
     <h1>Super<span>Net</span></h1>
     <p class="lead">منظومة سطح مكتب لإدارة مشتركي الفايبر <span class="num">FTTH</span> — كل شغل المكتب بمكان واحد: المشتركين، الباقات، الكابينات، الديون، المخزون والتقارير.</p>
 
