@@ -1,6 +1,6 @@
 {
-  "version": "2.5.14",
-  "versionCode": 11,
+  "version": "2.5.15",
+  "versionCode": 12,
   "url": "https://github.com/22mo/supernet/releases/download/android-beta/SuperNet.apk",
-  "notes": "صفحة تذاكر الشركة صارت بالتطبيق: من المزيد ← تذاكر الشركة. والصفحة الرئيسية تعرض الاشتراكات الفعّالة وديون اليوم."
+  "notes": "شعار SuperNet الجديد وشاشة فتح جديدة. حسابات SAS والمواقع صارت محفوظة مشفّرة بالتليفون، وحماية أقوى للحسابات."
 }
