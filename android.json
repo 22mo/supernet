@@ -1,6 +1,6 @@
 {
-  "version": "2.5.15",
-  "versionCode": 12,
+  "version": "2.5.16",
+  "versionCode": 13,
   "url": "https://github.com/22mo/supernet/releases/download/android-beta/SuperNet.apk",
-  "notes": "شعار SuperNet الجديد وشاشة فتح جديدة. حسابات SAS والمواقع صارت محفوظة مشفّرة بالتليفون، وحماية أقوى للحسابات."
+  "notes": "حالات المشتركين أسرع، البحث بزر البحث بالكيبورد، تنبيه أحمر واضح للقرض وقت التفعيل، والكارتات المصروفة حسب التاريخ."
 }
